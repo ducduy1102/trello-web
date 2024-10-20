@@ -1,11 +1,17 @@
 import Button from "@mui/material/Button";
 import { pink } from "@mui/material/colors";
-import { Stack } from "@mui/material";
-import { AccessAlarm, ThreeDRotation, Home } from "@mui/icons-material";
+import Stack from "@mui/material/Stack";
+import AccessAlarm from "@mui/icons-material/AccessAlarm";
+import ThreeDRotation from "@mui/icons-material/ThreeDRotation";
+import Home from "@mui/icons-material/Home";
+import Typography from "@mui/material/Typography";
 
 function App() {
   return (
     <>
+      <Typography variant="body2" color="textSecondary">
+        Hi
+      </Typography>
       <Stack direction="row" spacing={3}>
         <Home />
         <Home color="primary" />
