@@ -3,6 +3,10 @@ import { experimental_extendTheme as extendTheme } from "@mui/material/styles";
 import { cyan, deepOrange, orange, teal } from "@mui/material/colors";
 
 const theme = extendTheme({
+  trelloCustom: {
+    appBarHeight: "48px",
+    boardBarHeight: "58px",
+  },
   colorSchemes: {
     light: {
       palette: {
