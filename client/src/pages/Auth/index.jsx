@@ -1,1 +1,1 @@
-// Authentication: Sign In / Sign Up
+// Authentication: S:ign In / Sign Up
