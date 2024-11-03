@@ -18,23 +18,24 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import Tooltip from "@mui/material/Tooltip";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Profiles from "./Menus/Profiles";
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
 const AppBar = () => {
   return (
     <Box
-      px={2}
       sx={{
         width: "100%",
         height: (theme) => theme.trelloCustom.boardBarHeight,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        gap: 2,
+        paddingX: 2,
+        overflowX: "auto",
       }}
     >
       <Box
         sx={{
-          width: "100%",
-          height: (theme) => theme.trelloCustom.boardBarHeight,
           display: "flex",
           alignItems: "center",
           gap: 2,
@@ -67,12 +68,25 @@ const AppBar = () => {
           >
             Trello
           </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: {
+              xs: "none",
+              md: "flex",
+            },
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
           <Workspaces />
           <Recent />
           <Started />
           <Templates />
-
-          <Button variant="outlined">Create</Button>
+          <Button variant="outlined" startIcon={<LibraryAddIcon />}>
+            Create
+          </Button>
         </Box>
       </Box>
 
@@ -92,6 +106,9 @@ const AppBar = () => {
           label="Search..."
           type="search"
           size="small"
+          sx={{
+            minWidth: "120px",
+          }}
         />
         <ModeSelect />
 
