@@ -33,7 +33,7 @@ const Profiles = () => {
           aria-expanded={open ? "true" : undefined}
         >
           <Avatar
-            sx={{ width: 33, height: 33 }}
+            sx={{ width: 36, height: 36 }}
             alt="Evil Shadow"
             src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
           />

@@ -12,13 +12,13 @@ import Button from "@mui/material/Button";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 const MENU_STYLES = {
-  color: "primary.main",
-  bgcolor: "white",
+  color: "white",
+  bgcolor: "transparent",
   border: "none",
   paddingX: "5px",
   borderRadius: "4px",
-  "& .MuiSvgIcon-root": {
-    color: "primary.main",
+  ".MuiSvgIcon-root": {
+    color: "white",
   },
   "&:hover": {
     bgcolor: "primary.50",
@@ -30,14 +30,16 @@ const BoardBar = () => {
     <Box
       sx={{
         width: "100%",
-        height: (theme) => theme.trelloCustom.boardBarHeight,
+        height: (theme) => theme.trello.boardBarHeight,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         gap: 2,
         paddingX: 2,
         overflowX: "auto",
-        borderTop: "1px solid #00bfa5",
+        borderBottom: "1px solid white",
+        bgcolor: (theme) =>
+          theme.palette.mode === "dark" ? "#34495e" : "#1976d2",
       }}
     >
       <Box
@@ -86,7 +88,17 @@ const BoardBar = () => {
           gap: 2,
         }}
       >
-        <Button variant="outlined" startIcon={<PersonAddIcon />}>
+        <Button
+          variant="outlined"
+          startIcon={<PersonAddIcon />}
+          sx={{
+            color: "white",
+            borderColor: "white",
+            "&:hover": {
+              borderColor: "white",
+            },
+          }}
+        >
           Invite
         </Button>
 
@@ -97,6 +109,10 @@ const BoardBar = () => {
               width: 33,
               height: 33,
               fontSize: 16,
+              border: "none",
+              color: "white",
+              cursor: "pointer",
+              "&:first-of-type": { bgcolor: "#a4b0be" },
             },
           }}
         >
