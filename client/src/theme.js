@@ -34,8 +34,8 @@ const theme = extendTheme({
       styleOverrides: {
         body: {
           "*::-webkit-scrollbar": {
-            width: "4px",
-            height: "4px",
+            width: "5px",
+            height: "5px",
             // overflow: "scroll";
             // scrollbarColor: "red orange",
             // scrollbarWidth: "thin",
@@ -66,6 +66,15 @@ const theme = extendTheme({
           // color: theme.palette.primary.main,
           fontSize: "0.875rem",
         }),
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          "&.MuiTypography-body1": {
+            fontSize: "0.875rem",
+          },
+        },
       },
     },
     MuiOutlinedInput: {
