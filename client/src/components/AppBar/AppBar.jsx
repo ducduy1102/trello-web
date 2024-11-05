@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import ModeSelect from "@/components/ModeSelect";
+import ModeSelect from "@/components/ModeSelect/ModeSelect";
 import AppsIcon from "@mui/icons-material/Apps";
 // import trelloLogo from "@/assets/trello.svg";
 import TrelloIcon from "@/assets/trello.svg?react";
