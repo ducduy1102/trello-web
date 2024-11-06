@@ -3,7 +3,7 @@ import Column from "./Column/Column";
 import Button from "@mui/material/Button";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 
-const ListColumn = () => {
+const ListColumn = ({ columns }) => {
   return (
     <Box
       sx={{
@@ -18,10 +18,9 @@ const ListColumn = () => {
         },
       }}
     >
-      {Array(3)
-        .fill()
-        .map((_, index) => (
-          <Column key={`${index}-card`} />
+      {columns.length > 0 &&
+        columns.map((column, index) => (
+          <Column key={`${index}-${column._id}`} column={column} />
         ))}
 
       {/* Box add new column */}

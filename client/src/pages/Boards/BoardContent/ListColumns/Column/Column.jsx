@@ -17,8 +17,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import ListCards from "./ListCards/ListCards";
+import { mapOrder } from "@/utils/sorts";
 
-const Column = () => {
+const Column = ({ column }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -27,6 +28,8 @@ const Column = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, "_id");
 
   return (
     <Box
@@ -56,7 +59,7 @@ const Column = () => {
           variant="h6"
           fontSize="1rem"
         >
-          Column Title
+          {column?.title || "Column Title"}
         </Typography>
 
         {/* Dropdown more options */}
@@ -125,7 +128,7 @@ const Column = () => {
       </Box>
 
       {/* List card column */}
-      <ListCards />
+      <ListCards cards={orderedCards} />
 
       {/* Footer column */}
       <Box

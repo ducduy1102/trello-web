@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Card from "./Card/Card";
 
-const ListCards = () => {
+const ListCards = ({ cards }) => {
   return (
     <Box
       sx={{
@@ -26,11 +26,9 @@ const ListCards = () => {
         },
       }}
     >
-      <Card />
-      {Array(6)
-        .fill()
-        .map((_, index) => (
-          <Card key={`${index}-card`} hideMedia />
+      {cards.length > 0 &&
+        cards.map((card, index) => (
+          <Card key={`${index}-${card._id}`} card={card} />
         ))}
     </Box>
   );
