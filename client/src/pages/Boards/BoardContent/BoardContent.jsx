@@ -12,10 +12,8 @@ import {
   DragOverlay,
   defaultDropAnimationSideEffects,
   closestCorners,
-  rectIntersection,
   pointerWithin,
   getFirstCollision,
-  closestCenter,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import Column from "./ListColumns/Column/Column";
@@ -317,24 +315,26 @@ const BoardContent = ({ board }) => {
 
       // Tìm các điểm va chạm, giao nhau với con trỏ
       const pointerIntersections = pointerWithin(args);
+      // Kéo 1 card có "image cover lớn" và "kéo lên trên cùng" ra khỏi khu vực kéo thả
+      if (!pointerIntersections?.length) return;
 
-      // Thuật toán phát hiện va chạm => return 1 mảng các va chạm
-      const intersections = !!pointerIntersections?.length
-        ? pointerIntersections
-        : rectIntersection(args);
+      // // Thuật toán phát hiện va chạm => return 1 mảng các va chạm
+      // const intersections = !!pointerIntersections?.length
+      //   ? pointerIntersections
+      //   : rectIntersection(args);
 
-      // Tìm overId đầu tiên trong đám intersections
-      let overId = getFirstCollision(intersections, "id");
+      // Tìm overId đầu tiên trong đám pointerIntersections
+      let overId = getFirstCollision(pointerIntersections, "id");
 
       if (overId) {
-        // Nếu overId là column thì tìm tới cardId gần nhất bên trong area va chạm đó dựa vào thuật toán phát hiện va chạm closestCenter hoặc closestCorners đều được (closestCenter thì mượt hơn :v)
+        // Nếu overId là column thì tìm tới cardId gần nhất bên trong area va chạm đó dựa vào thuật toán phát hiện va chạm closestCenter hoặc closestCorners đều được (closestCorners thì mượt hơn :v)
         const checkColumn = orderedColumns.find(
           (column) => column._id === overId
         );
 
         if (checkColumn) {
           // console.log("overId before", overId);
-          overId = closestCenter({
+          overId = closestCorners({
             ...args,
             droppableContainers: args.droppableContainers.filter(
               (container) => {
