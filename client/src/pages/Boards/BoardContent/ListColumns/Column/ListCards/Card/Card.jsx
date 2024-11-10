@@ -32,9 +32,9 @@ const CardItem = ({ card }) => {
 
   const showCardAction = () => {
     return (
-      !!card?.memberIds.length ||
-      !!card?.comments.length ||
-      !!card?.attachments.length
+      !!card?.memberIds?.length ||
+      !!card?.comments?.length ||
+      !!card?.attachments?.length
     );
   };
 
@@ -48,6 +48,9 @@ const CardItem = ({ card }) => {
         cursor: "pointer",
         boxShadow: "0 1px 1px rgba(0,0,0,0.2)",
         overflow: "unset",
+        display: card?.FE_PlaceholderCard ? "none" : "block",
+        // hoặc như dưới nếu ko dùng dc display
+        // height: card?.FE_PlaceholderCard ? "0px" : "unset",
       }}
     >
       {card?.cover && (
@@ -57,16 +60,16 @@ const CardItem = ({ card }) => {
             card?.cover ||
             "https://images.unsplash.com/photo-1719937206158-cad5e6775044?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           }
-          title={card?.title || "Card title"}
+          title={card?.title}
         />
       )}
 
       <CardContent sx={{ p: 1.5, "&:last-child": { p: 1.5 } }}>
-        <Typography>{card?.title || "Card title"}</Typography>
+        <Typography>{card?.title}</Typography>
       </CardContent>
       {showCardAction() && (
         <CardActions sx={{ p: "0 4px 8px 4px" }}>
-          {!!card?.memberIds.length && (
+          {!!card?.memberIds?.length && (
             <Button size="small" startIcon={<GroupIcon />}>
               {card?.memberIds.length}
             </Button>
