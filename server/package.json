@@ -1,0 +1,13 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "evilshadow trello web",
+  "main": "src/server.js",
+  "author": "evilshadow",
+  "type": "module",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
