@@ -1,31 +1,54 @@
+/* eslint-disable no-console */
 import express from "express";
-import { mapOrder } from "~/utils/sorts.js";
+import { CLOSE_DB, CONNECT_DB } from "~/config/mongodb";
+import exitHook from "async-exit-hook";
+import "dotenv/config";
+import { env } from "~/config/environment";
 
-const app = express();
+const START_SERVER = () => {
+  const app = express();
 
-const hostname = "localhost";
-const port = 8888;
+  const hostname = env.APP_HOST;
+  const port = env.APP_PORT || 8888;
 
-app.get("/", (req, res) => {
-  // Test Absolute import mapOrder
-  // eslint-disable-next-line no-console
-  console.log(
-    mapOrder(
-      [
-        { id: "id-1", name: "One" },
-        { id: "id-2", name: "Two" },
-        { id: "id-3", name: "Three" },
-        { id: "id-4", name: "Four" },
-        { id: "id-5", name: "Five" },
-      ],
-      ["id-5", "id-4", "id-2", "id-3", "id-1"],
-      "id"
-    )
-  );
-  res.end("<h1>Hello World!</h1><hr>");
-});
+  app.get("/", async (req, res) => {
+    res.end("<h1>Hello World!</h1><hr>");
+  });
 
-app.listen(port, hostname, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Hello Evil Shadow, I am running at ${hostname}:${port}/`);
-});
+  app.listen(port, hostname, () => {
+    console.log(
+      `Hello Evil Shadow, I am running at http://${hostname}:${port}`
+    );
+  });
+
+  exitHook(() => {
+    console.log("Server is shutting down...");
+    CLOSE_DB();
+    console.log("Disconnected from MongoDB Cloud Atlas");
+  });
+};
+
+// C1
+// CONNECT_DB()
+//   .then(() => {
+//     console.log("Connected to MongoDB Cloud Atlas!");
+//   })
+//   .then(() => START_SERVER())
+//   .catch((error) => {
+//     console.error(error);
+//     process.exit(0);
+//   });
+
+// C2 IIFE: Immediately Invoked Function Expression
+// https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+(async () => {
+  try {
+    console.log("Connecting to MongoDB Atlas...");
+    await CONNECT_DB();
+    console.log("Connected to MongoDB Cloud Atlas!");
+    START_SERVER();
+  } catch (error) {
+    console.error(error);
+    process.exit(0);
+  }
+})();
