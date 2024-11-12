@@ -4,6 +4,7 @@ import { CLOSE_DB, CONNECT_DB } from "~/config/mongodb";
 import exitHook from "async-exit-hook";
 import "dotenv/config";
 import { env } from "~/config/environment";
+import { APIs_V1 } from "~/routes/v1";
 
 const START_SERVER = () => {
   const app = express();
@@ -11,10 +12,11 @@ const START_SERVER = () => {
   const hostname = env.APP_HOST;
   const port = env.APP_PORT || 8888;
 
-  app.get("/", async (req, res) => {
-    res.end("<h1>Hello World!</h1><hr>");
-  });
+  // Enable req.body json data
+  app.use(express.json());
 
+  // Use APIs v1
+  app.use("/v1", APIs_V1);
   app.listen(port, hostname, () => {
     console.log(
       `Hello Evil Shadow, I am running at http://${hostname}:${port}`
