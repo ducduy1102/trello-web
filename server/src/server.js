@@ -5,6 +5,7 @@ import exitHook from "async-exit-hook";
 import "dotenv/config";
 import { env } from "~/config/environment";
 import { APIs_V1 } from "~/routes/v1";
+import { errorHandlingMiddleware } from "./middlewares/errorHandlingMiddleware";
 
 const START_SERVER = () => {
   const app = express();
@@ -17,6 +18,10 @@ const START_SERVER = () => {
 
   // Use APIs v1
   app.use("/v1", APIs_V1);
+
+  // Middleware xử lý lỗi tập trung
+  app.use(errorHandlingMiddleware);
+
   app.listen(port, hostname, () => {
     console.log(
       `Hello Evil Shadow, I am running at http://${hostname}:${port}`
