@@ -1,4 +1,5 @@
 import { StatusCodes } from "http-status-codes";
+import { boardService } from "~/services/boardService";
 import ApiError from "~/utils/ApiError";
 
 const createNew = async (req, res, next) => {
@@ -11,13 +12,12 @@ const createNew = async (req, res, next) => {
     // console.log("req.jwtDecoded: ", req.jwtDecoded);
 
     // Điều hướng data tầng services
+    const createdBoard = await boardService.createNew(req.body);
 
-    // Kết quả trả về client
     // throw new ApiError(StatusCodes.BAD_GATEWAY, "Test error!");
 
-    res
-      .status(StatusCodes.CREATED)
-      .json({ message: "POST from controllers: APIs create new board!" });
+    // Kết quả trả về client
+    res.status(StatusCodes.CREATED).json(createdBoard);
   } catch (error) {
     next(error);
   }
