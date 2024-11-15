@@ -13,7 +13,6 @@ const createNew = async (data) => {
 
     // Lấy bản ghi board sau khi tạo
     const getNewBoard = await boardModel.findBoardById(createdBoard.insertedId);
-    console.log(getNewBoard);
     return getNewBoard;
   } catch (error) {
     throw Error(error);
