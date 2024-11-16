@@ -6,9 +6,14 @@ import "dotenv/config";
 import { env } from "~/config/environment";
 import { APIs_V1 } from "~/routes/v1";
 import { errorHandlingMiddleware } from "./middlewares/errorHandlingMiddleware";
+import { corsOptions } from "./config/cors";
+import cors from "cors";
 
 const START_SERVER = () => {
   const app = express();
+  // app.use(cors()); // mọi nơi đều dc truy cập tài nguyên
+  // Config xử lý cors cho từng domain dc phép truy cập
+  app.use(cors(corsOptions));
 
   const hostname = env.APP_HOST;
   const port = env.APP_PORT || 8888;
