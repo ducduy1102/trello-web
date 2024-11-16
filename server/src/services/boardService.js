@@ -23,9 +23,12 @@ const createNew = async (data) => {
 };
 
 const getDetails = async (boardId) => {
+  // eslint-disable-next-line no-useless-catch
   try {
     const board = await boardModel.getDetails(boardId);
-    if (!board) throw new ApiError(StatusCodes.NOT_FOUND, "Board not found!");
+    if (!board) {
+      throw new ApiError(StatusCodes.NOT_FOUND, "Board not found!");
+    }
 
     // B1. Deep clone board là tạo ra một cái mới để xử lý ko ảnh hưởng tới board ban đầu, tùy mục đích về sau cần clone deep hay ko
     const resBoard = cloneDeep(board);
@@ -48,7 +51,7 @@ const getDetails = async (boardId) => {
 
     return resBoard;
   } catch (error) {
-    throw Error(error);
+    throw error;
   }
 };
 
