@@ -1,4 +1,5 @@
 import { StatusCodes } from "http-status-codes";
+import { cloneDeep } from "lodash";
 import { boardModel } from "~/models/boardModel";
 import ApiError from "~/utils/ApiError";
 import { slugify } from "~/utils/formatter";
@@ -26,7 +27,26 @@ const getDetails = async (boardId) => {
     const board = await boardModel.getDetails(boardId);
     if (!board) throw new ApiError(StatusCodes.NOT_FOUND, "Board not found!");
 
-    return board;
+    // B1. Deep clone board là tạo ra một cái mới để xử lý ko ảnh hưởng tới board ban đầu, tùy mục đích về sau cần clone deep hay ko
+    const resBoard = cloneDeep(board);
+
+    // B2. Đưa cards vào trong columns
+    resBoard.columns.forEach((column) => {
+      // C1. convert ObjectId() về string bằng hàm toString() trong js
+      // column.cards = resBoard.cards.filter(
+      //   (card) => card.columnId.toString() === column._id.toString()
+      // );
+
+      // C2: Dùng .equals vì mongoDB có support medthod .equals
+      column.cards = resBoard.cards.filter((card) =>
+        card.columnId.equals(column._id)
+      );
+    });
+
+    // Xóa mảng cards khỏi board ban đầu
+    delete resBoard.cards;
+
+    return resBoard;
   } catch (error) {
     throw Error(error);
   }

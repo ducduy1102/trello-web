@@ -52,13 +52,15 @@ const BoardBar = ({ board }) => {
           gap: 2,
         }}
       >
-        <Chip
-          sx={MENU_STYLES}
-          icon={<DashboardIcon />}
-          label={board?.title}
-          clickable
-          // onClick={() => {}}
-        />
+        <Tooltip title={`${board?.description}`}>
+          <Chip
+            sx={MENU_STYLES}
+            icon={<DashboardIcon />}
+            label={board?.title}
+            clickable
+            // onClick={() => {}}
+          />
+        </Tooltip>
         <Chip
           sx={MENU_STYLES}
           icon={<VpnLockIcon />}

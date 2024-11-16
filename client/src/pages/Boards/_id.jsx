@@ -14,7 +14,7 @@ const Board = () => {
   useEffect(() => {
     // const { boardId } = useParams(); // Assumes your route is defined as "/board/:boardId"
     // console.log(boardId);
-    const boardId = "67378930a70b592a92888876";
+    const boardId = "6738aa385aacfca400f0a002";
     // Call API
     fetchBoardDetailsAPI(boardId).then((board) => {
       setBoard(board);
