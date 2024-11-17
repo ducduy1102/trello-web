@@ -51,6 +51,8 @@ const CardItem = ({ card }) => {
         display: card?.FE_PlaceholderCard ? "none" : "block",
         // hoặc như dưới nếu ko dùng dc display
         // height: card?.FE_PlaceholderCard ? "0px" : "unset",
+        border: "1px solid transparent",
+        "&:hover": { borderColor: (theme) => theme.palette.primary.main },
       }}
     >
       {card?.cover && (
