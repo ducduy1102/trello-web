@@ -218,6 +218,7 @@ const Column = ({ column }) => {
                 value={newCardTitle}
                 onChange={(e) => setNewCardTitle(e.target.value)}
                 autoFocus
+                data-no-dnd="true"
                 sx={{
                   width: "100%",
                   "& label": { color: "text.primary" },
@@ -251,6 +252,7 @@ const Column = ({ column }) => {
                   variant="contained"
                   color="success"
                   size="small"
+                  data-no-dnd="true"
                   sx={{
                     py: "6px",
                     boxShadow: "none",
