@@ -9,6 +9,7 @@ import {
   SortableContext,
   horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { toast } from "react-toastify";
 
 const ListColumn = ({ columns }) => {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
@@ -17,7 +18,7 @@ const ListColumn = ({ columns }) => {
 
   const addNewColumn = () => {
     if (!newColumnTitle) {
-      // console.error("Please enter Column Title");
+      toast.error("Please enter Column Title");
       return;
     }
     // console.log(newColumnTitle);

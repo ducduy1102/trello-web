@@ -22,6 +22,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { mapOrder } from "@/utils/sorts";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { toast } from "react-toastify";
 
 const Column = ({ column }) => {
   const {
@@ -60,7 +61,7 @@ const Column = ({ column }) => {
 
   const addNewCard = () => {
     if (!newCardTitle) {
-      // console.error("Please enter Card Title");
+      toast.error("Please enter Card Title");
       return;
     }
     // console.log(newCardTitle);
