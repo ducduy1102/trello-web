@@ -11,18 +11,23 @@ import {
 } from "@dnd-kit/sortable";
 import { toast } from "react-toastify";
 
-const ListColumn = ({ columns }) => {
+const ListColumn = ({ columns, createNewColumn, createNewCard }) => {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
   const toggleOpeNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm);
   const [newColumnTitle, setNewColumnTitle] = useState("");
 
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error("Please enter Column Title");
       return;
     }
     // console.log(newColumnTitle);
     // Call API
+    const newColumnData = {
+      title: newColumnTitle,
+    };
+
+    await createNewColumn(newColumnData);
 
     toggleOpeNewColumnForm();
     setNewColumnTitle("");
@@ -51,7 +56,11 @@ const ListColumn = ({ columns }) => {
       >
         {columns.length > 0 &&
           columns.map((column, index) => (
-            <Column key={`${index}-${column._id}`} column={column} />
+            <Column
+              key={`${index}-${column._id}`}
+              column={column}
+              createNewCard={createNewCard}
+            />
           ))}
 
         {/* Box add new column */}

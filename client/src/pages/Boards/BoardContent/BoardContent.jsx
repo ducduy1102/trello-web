@@ -15,7 +15,7 @@ import {
   pointerWithin,
   getFirstCollision,
 } from "@dnd-kit/core";
-import { MouseSensor, TouchSensor } from "@/customLib/DnDKitSensors";
+import { MouseSensor, TouchSensor } from "@/customLib/DndKitSensors";
 import { arrayMove } from "@dnd-kit/sortable";
 import Column from "./ListColumns/Column/Column";
 import Card from "./ListColumns/Column/ListCards/Card/Card";
@@ -27,7 +27,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: "ACTIVE_DRAG_ITEM_TYPE_CARD",
 };
 
-const BoardContent = ({ board }) => {
+const BoardContent = ({ board, createNewColumn, createNewCard }) => {
   // Change position in columnOrderIds of mock-data => sort columns
   // Cùng 1 thời điểm chỉ có 1 phần tử dc kéo (column / card)
   const [orderedColumns, setOrderedColumns] = useState([]);
@@ -392,6 +392,11 @@ const BoardContent = ({ board }) => {
           p: "10px 0",
         }}
       >
+        <ListColumn
+          columns={orderedColumns}
+          createNewColumn={createNewColumn}
+          createNewCard={createNewCard}
+        />
         <DragOverlay dropAnimation={dropAnimation}>
           {!activeDragItemType && null}
           {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (
@@ -401,7 +406,6 @@ const BoardContent = ({ board }) => {
             <Card card={activeDragItemData} />
           )}
         </DragOverlay>
-        <ListColumn columns={orderedColumns} />
       </Box>
     </DndContext>
   );
