@@ -95,10 +95,31 @@ const getDetails = async (id) => {
   }
 };
 
+// Push columnId vào cuối mảng columnOrderIds
+const pushColumnOrderIds = async (column) => {
+  try {
+    const result = await GET_DB()
+      .collection(BOARD_COLLECTION_NAME)
+      .findOneAndUpdate(
+        // filter
+        { _id: new ObjectId(column.boardId) },
+        // update
+        { $push: { columnOrderIds: new ObjectId(column._id) } },
+        // options: "after" returns the updated document
+        { returnDocument: "after" }
+      );
+
+    return result.value;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 export const boardModel = {
   BOARD_COLLECTION_NAME,
   BOARD_COLLECTION_SCHEMA,
   createNew,
   findBoardById,
   getDetails,
+  pushColumnOrderIds,
 };

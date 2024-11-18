@@ -1,4 +1,5 @@
 import { cardModel } from "~/models/cardModel";
+import { columnModel } from "~/models/columnModel";
 
 const createNew = async (data) => {
   try {
@@ -10,6 +11,12 @@ const createNew = async (data) => {
 
     // Lấy bản ghi Card sau khi tạo
     const getNewCard = await cardModel.findCardById(createdCard.insertedId);
+
+    // Update lại mảng cardOrderIds trong collection Columns
+    if (getNewCard) {
+      await columnModel.pushCardOrderIds(getNewCard);
+    }
+
     return getNewCard;
   } catch (error) {
     throw Error(error);
