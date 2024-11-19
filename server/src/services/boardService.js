@@ -55,7 +55,24 @@ const getDetails = async (boardId) => {
   }
 };
 
+const update = async (boardId, data) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const updatedData = {
+      ...data,
+      updatedAt: Date.now(),
+    };
+
+    const updatedBoard = await boardModel.update(boardId, updatedData);
+
+    return updatedBoard;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const boardService = {
   createNew,
   getDetails,
+  update,
 };

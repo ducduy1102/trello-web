@@ -27,7 +27,12 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: "ACTIVE_DRAG_ITEM_TYPE_CARD",
 };
 
-const BoardContent = ({ board, createNewColumn, createNewCard }) => {
+const BoardContent = ({
+  board,
+  createNewColumn,
+  createNewCard,
+  moveColumns,
+}) => {
   // Change position in columnOrderIds of mock-data => sort columns
   // Cùng 1 thời điểm chỉ có 1 phần tử dc kéo (column / card)
   const [orderedColumns, setOrderedColumns] = useState([]);
@@ -296,12 +301,10 @@ const BoardContent = ({ board, createNewColumn, createNewCard }) => {
       // console.log(oldIndex, newIndex, dndOrderedColumns);
 
       // Xử lý gọi APIs
-      // const dndOrderedColumnsIds = dndOrderedColumns.map((c) => c._id);
-      // console.log("dndOrderedColumns", dndOrderedColumns);
-      // console.log("dndOrderedColumnsIds", dndOrderedColumnsIds);
+      moveColumns(dndOrderedColumns);
       setOrderedColumns(dndOrderedColumns);
 
-      return dndOrderedColumns;
+      // return dndOrderedColumns;
     }
 
     setActiveDragItemId(null);

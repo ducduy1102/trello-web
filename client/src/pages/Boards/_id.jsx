@@ -9,6 +9,7 @@ import {
   createNewCardAPI,
   createNewColumnAPI,
   fetchBoardDetailsAPI,
+  updateBoardDetailsAPI,
 } from "@/apis";
 import { useParams } from "react-router-dom";
 import { isEmpty } from "lodash";
@@ -35,7 +36,7 @@ const Board = () => {
     });
   }, []);
 
-  // Call api create new column và làm lại data state board
+  // Call api create new column và update lại data state board
   const createNewColumn = async (newColumnData) => {
     const createdColumn = await createNewColumnAPI({
       ...newColumnData,
@@ -54,7 +55,7 @@ const Board = () => {
     setBoard(newBoard);
   };
 
-  // Call api create new card và làm lại data state board
+  // Call api create new card và update lại data state board
   const createNewCard = async (newCardData) => {
     const createdCard = await createNewCardAPI({
       ...newCardData,
@@ -74,6 +75,20 @@ const Board = () => {
     setBoard(newBoard);
   };
 
+  // Call lại api sau khi kéo thả column
+  const moveColumns = async (dndOrderedColumns) => {
+    const dndOrderedColumnsIds = dndOrderedColumns.map((c) => c._id);
+    const newBoard = { ...board };
+    newBoard.columns = dndOrderedColumns;
+    newBoard.columnOrderIds = dndOrderedColumnsIds;
+    setBoard(newBoard);
+
+    // Call api update Board
+    await updateBoardDetailsAPI(newBoard._id, {
+      columnOrderIds: dndOrderedColumnsIds,
+    });
+  };
+
   return (
     <Container disableGutters maxWidth={false} sx={{ height: "100vh" }}>
       <AppBar />
@@ -82,6 +97,7 @@ const Board = () => {
         board={board}
         createNewColumn={createNewColumn}
         createNewCard={createNewCard}
+        moveColumns={moveColumns}
       />
     </Container>
   );
