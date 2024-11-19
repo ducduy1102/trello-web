@@ -11,6 +11,8 @@ import {
   fetchBoardDetailsAPI,
 } from "@/apis";
 import { useParams } from "react-router-dom";
+import { isEmpty } from "lodash";
+import { generatePlaceholderCard } from "@/utils/formatters";
 
 const Board = () => {
   const [board, setBoard] = useState(null);
@@ -21,6 +23,14 @@ const Board = () => {
     const boardId = "6738aa385aacfca400f0a002";
     // Call API
     fetchBoardDetailsAPI(boardId).then((board) => {
+      // Xử lý kéo thả column rỗng khi f5
+      board.columns.forEach((column) => {
+        if (isEmpty(column.cards)) {
+          column.cards = [generatePlaceholderCard(column)];
+          column.cardOrderIds = [generatePlaceholderCard(column)._id];
+        }
+      });
+      console.log(board);
       setBoard(board);
     });
   }, []);
@@ -31,8 +41,17 @@ const Board = () => {
       ...newColumnData,
       boardId: board._id,
     });
+
+    // Xử lý kéo thả 1 column rỗng khi tạo mới column
+    createdColumn.cards = [generatePlaceholderCard(createdColumn)];
+    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id];
     console.log("created column", createdColumn);
+
     // Cập nhật state board
+    const newBoard = { ...board };
+    newBoard.columns.push(createdColumn);
+    newBoard.columnOrderIds.push(createdColumn._id);
+    setBoard(newBoard);
   };
 
   // Call api create new card và làm lại data state board
@@ -41,8 +60,18 @@ const Board = () => {
       ...newCardData,
       boardId: board._id,
     });
-    console.log("created Card", createNewCard);
+    // console.log("created Card", createNewCard);
+
     // Cập nhật state board
+    const newBoard = { ...board };
+    const columnToUpdate = newBoard.columns.find(
+      (column) => column._id === createdCard.columnId
+    );
+    if (columnToUpdate) {
+      columnToUpdate.cards.push(createdCard);
+      columnToUpdate.cardOrderIds.push(createdCard._id);
+    }
+    setBoard(newBoard);
   };
 
   return (
