@@ -6,7 +6,7 @@ import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from "~/utils/validators";
 // Define Collection (name & schema)
 const COLUMN_COLLECTION_NAME = "columns";
 const COLUMN_COLLECTION_SCHEMA = Joi.object({
-  boardId: Joi.string()
+  columnId: Joi.string()
     .required()
     .pattern(OBJECT_ID_RULE)
     .message(OBJECT_ID_RULE_MESSAGE),
@@ -22,6 +22,9 @@ const COLUMN_COLLECTION_SCHEMA = Joi.object({
   _destroy: Joi.boolean().default(false),
 });
 
+// Chỉ ra những field ko cho phép cập nhật trong hàm update
+const INVALID_UPDATE_FIELDS = ["_id", "boardId", "createdAt"];
+
 const validateBeforeCreate = async (data) => {
   return await COLUMN_COLLECTION_SCHEMA.validateAsync(data, {
     abortEarly: false,
@@ -34,7 +37,7 @@ const createNew = async (data) => {
     // Convert 1 số dữ liệu liên quan đến ObjectId
     const newColumnToAdd = {
       ...validData,
-      boardId: new ObjectId(validData.boardId),
+      columnId: new ObjectId(validData.columnId),
     };
     const createdBoard = await GET_DB()
       .collection(COLUMN_COLLECTION_NAME)
@@ -76,10 +79,38 @@ const pushCardOrderIds = async (card) => {
   }
 };
 
+const update = async (columnId, updateData) => {
+  try {
+    // Lọc những field ko cho phép cập nhật
+    Object.keys(updateData).forEach((fieldName) => {
+      if (INVALID_UPDATE_FIELDS.includes(fieldName)) {
+        delete updateData(fieldName);
+      }
+    });
+    // console.log("updateData", updateData);
+
+    const result = await GET_DB()
+      .collection(COLUMN_COLLECTION_NAME)
+      .findOneAndUpdate(
+        // filter
+        { _id: new ObjectId(columnId) },
+        // update
+        { $set: updateData },
+        // options: "after" returns the updated document
+        { returnDocument: "after" }
+      );
+
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 export const columnModel = {
   COLUMN_COLLECTION_NAME,
   COLUMN_COLLECTION_SCHEMA,
   createNew,
   findColumnById,
   pushCardOrderIds,
+  update,
 };

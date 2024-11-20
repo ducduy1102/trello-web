@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import ListColumn from "./ListColumns/ListColumn";
-import { mapOrder } from "@/utils/sorts";
 import {
   DndContext,
   PointerSensor,
@@ -32,6 +31,7 @@ const BoardContent = ({
   createNewColumn,
   createNewCard,
   moveColumns,
+  moveCardInTheSameColumn,
 }) => {
   // Change position in columnOrderIds of mock-data => sort columns
   // Cùng 1 thời điểm chỉ có 1 phần tử dc kéo (column / card)
@@ -62,7 +62,8 @@ const BoardContent = ({
   const sensors = useSensors(mouseSensor, touchSensor);
 
   useEffect(() => {
-    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, "_id"));
+    // column đã được sắp xếp ở cha _id.jsx (mapOrder line 30)
+    setOrderedColumns(board.columns);
   }, [board]);
 
   const findColumnByCardId = (cardId) => {
@@ -254,14 +255,20 @@ const BoardContent = ({
         const oldCardIndex = oldColumnWhenDraggingCard?.cards?.findIndex(
           (c) => c._id === activeDragItemId
         );
+        // console.log("oldCardIndex", oldCardIndex);
+
         const newCardIndex = overColumn?.cards?.findIndex(
           (c) => c._id === overCardId
         );
+        // console.log("newCardIndex", newCardIndex);
+
         const dndOrderedCards = arrayMove(
           oldColumnWhenDraggingCard?.cards,
           oldCardIndex,
           newCardIndex
         );
+
+        const dndOrderedCardIds = dndOrderedCards.map((card) => card._id);
 
         setOrderedColumns((prevColumns) => {
           // clone mảng ordredColumnsState cũ ra 1 cái mới để xử lý data rồi mới return => cập nhật lại ordredColumnsState mới
@@ -273,10 +280,16 @@ const BoardContent = ({
           );
           // Cập nhật lại mảng cards và cardOrderIds cho targetColumn
           targetColumn.cards = dndOrderedCards;
-          targetColumn.cardOrderIds = dndOrderedCards.map((card) => card._id);
+          targetColumn.cardOrderIds = dndOrderedCardIds;
 
           return nextColumns;
         });
+
+        moveCardInTheSameColumn(
+          dndOrderedCards,
+          dndOrderedCardIds,
+          oldColumnWhenDraggingCard._id
+        );
       }
     }
 
@@ -301,8 +314,8 @@ const BoardContent = ({
       // console.log(oldIndex, newIndex, dndOrderedColumns);
 
       // Xử lý gọi APIs
-      moveColumns(dndOrderedColumns);
       setOrderedColumns(dndOrderedColumns);
+      moveColumns(dndOrderedColumns);
 
       // return dndOrderedColumns;
     }

@@ -26,6 +26,23 @@ const createNew = async (data) => {
   }
 };
 
+const update = async (columnId, data) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const updatedData = {
+      ...data,
+      updatedAt: Date.now(),
+    };
+
+    const updatedColumn = await columnModel.update(columnId, updatedData);
+
+    return updatedColumn;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const columnService = {
   createNew,
+  update,
 };

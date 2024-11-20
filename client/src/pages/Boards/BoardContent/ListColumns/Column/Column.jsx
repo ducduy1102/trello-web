@@ -19,7 +19,6 @@ import DragHandleIcon from "@mui/icons-material/DragHandle";
 import ListCards from "./ListCards/ListCards";
 import TextField from "@mui/material/TextField";
 import CloseIcon from "@mui/icons-material/Close";
-import { mapOrder } from "@/utils/sorts";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { toast } from "react-toastify";
@@ -53,13 +52,14 @@ const Column = ({ column, createNewCard }) => {
     setAnchorEl(null);
   };
 
-  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, "_id");
+  // column đã được sắp xếp ở cha _id.jsx (mapOrder line 39)
+  const orderedCards = column.cards;
 
   const [openNewCardForm, setOpenNewCardForm] = useState(false);
   const toggleOpeNewCardForm = () => setOpenNewCardForm(!openNewCardForm);
   const [newCardTitle, setNewCardTitle] = useState("");
 
-  const addNewCard = async () => {
+  const addNewCard = () => {
     if (!newCardTitle) {
       toast.error("Please enter Card Title");
       return;
@@ -71,7 +71,7 @@ const Column = ({ column, createNewCard }) => {
       columnId: column._id,
     };
 
-    await createNewCard(newCardData);
+    createNewCard(newCardData);
 
     toggleOpeNewCardForm();
     setNewCardTitle("");
@@ -218,7 +218,7 @@ const Column = ({ column, createNewCard }) => {
               }}
             >
               <TextField
-                label="Enter column title..."
+                label="Enter card title..."
                 type="text"
                 size="small"
                 variant="outlined"

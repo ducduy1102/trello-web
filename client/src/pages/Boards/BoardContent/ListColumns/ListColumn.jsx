@@ -16,7 +16,7 @@ const ListColumn = ({ columns, createNewColumn, createNewCard }) => {
   const toggleOpeNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm);
   const [newColumnTitle, setNewColumnTitle] = useState("");
 
-  const addNewColumn = async () => {
+  const addNewColumn = () => {
     if (!newColumnTitle) {
       toast.error("Please enter Column Title");
       return;
@@ -27,7 +27,7 @@ const ListColumn = ({ columns, createNewColumn, createNewCard }) => {
       title: newColumnTitle,
     };
 
-    await createNewColumn(newColumnData);
+    createNewColumn(newColumnData);
 
     toggleOpeNewColumnForm();
     setNewColumnTitle("");
@@ -67,7 +67,7 @@ const ListColumn = ({ columns, createNewColumn, createNewCard }) => {
         {!openNewColumnForm ? (
           <Box
             sx={{
-              width: "250px",
+              minWidth: "250px",
               mx: 2,
               borderRadius: "6px",
               height: "fit-content",
@@ -91,7 +91,7 @@ const ListColumn = ({ columns, createNewColumn, createNewCard }) => {
         ) : (
           <Box
             sx={{
-              width: "250px",
+              minWidth: "250px",
               mx: 2,
               p: 1,
               borderRadius: "6px",
