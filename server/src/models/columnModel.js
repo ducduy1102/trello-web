@@ -87,7 +87,13 @@ const update = async (columnId, updateData) => {
         delete updateData(fieldName);
       }
     });
-    // console.log("updateData", updateData);
+
+    // Đối với dữ liệu liên quan đến ObjectId, biến đổi ở đây
+    if (updateData.cardOrderIds) {
+      updateData.cardOrderIds = updateData.cardOrderIds.map(
+        (_id) => new ObjectId(_id)
+      );
+    }
 
     const result = await GET_DB()
       .collection(COLUMN_COLLECTION_NAME)
