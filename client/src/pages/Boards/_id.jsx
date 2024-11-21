@@ -73,7 +73,6 @@ const Board = () => {
       ...newCardData,
       boardId: board._id,
     });
-    // console.log("created Card", createNewCard);
 
     // Cập nhật state board
     const newBoard = { ...board };
@@ -81,8 +80,15 @@ const Board = () => {
       (column) => column._id === createdCard.columnId
     );
     if (columnToUpdate) {
-      columnToUpdate.cards.push(createdCard);
-      columnToUpdate.cardOrderIds.push(createdCard._id);
+      // some method check dk return true/false
+      // column tạo ra có sẵn placeholder card rỗng => bỏ đi ko lấy
+      if (columnToUpdate.cards.some((card) => card.FE_PlaceholderCard)) {
+        columnToUpdate.cards = [createdCard];
+        columnToUpdate.cardOrderIds = [createdCard._id];
+      } else {
+        columnToUpdate.cards.push(createdCard);
+        columnToUpdate.cardOrderIds.push(createdCard._id);
+      }
     }
     setBoard(newBoard);
   };
@@ -143,12 +149,18 @@ const Board = () => {
     setBoard(newBoard);
 
     // Gọi API xử lý
+    let prevCardOrderIds = dndOrderedColumns.find(
+      (column) => column._id === prevColumnId
+    )?.cardOrderIds;
+
+    // Xử lý vấn đề khi kéo card cuối cùng ra khỏi column => column rỗng => có placeholder-card => remove trước khi gửi cho BE
+    if (prevCardOrderIds[0].includes("placeholder-card") || []) {
+      prevCardOrderIds = [];
+    }
     moveCardToDifferentColumnAPI({
       currentCardId,
       prevColumnId,
-      prevCardOrderIds: dndOrderedColumns.find(
-        (column) => column._id === prevColumnId
-      )?.cardOrderIds,
+      prevCardOrderIds,
       nextColumnId,
       nextCardOrderIds: dndOrderedColumns.find(
         (column) => column._id === nextColumnId

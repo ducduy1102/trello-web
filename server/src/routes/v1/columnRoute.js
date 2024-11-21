@@ -1,7 +1,6 @@
 import express from "express";
 import { columnValidation } from "~/validations/columnValidation";
 import { columnController } from "~/controllers/columnController";
-import Joi from "joi";
 
 const Router = express.Router();
 
