@@ -33,6 +33,7 @@ const BoardContent = ({
   moveColumns,
   moveCardInTheSameColumn,
   moveCardToDifferentColumn,
+  deleteColumnDetails,
 }) => {
   // Change position in columnOrderIds of mock-data => sort columns
   // Cùng 1 thời điểm chỉ có 1 phần tử dc kéo (column / card)
@@ -425,6 +426,7 @@ const BoardContent = ({
           columns={orderedColumns}
           createNewColumn={createNewColumn}
           createNewCard={createNewCard}
+          deleteColumnDetails={deleteColumnDetails}
         />
         <DragOverlay dropAnimation={dropAnimation}>
           {!activeDragItemType && null}

@@ -11,7 +11,12 @@ import {
 } from "@dnd-kit/sortable";
 import { toast } from "react-toastify";
 
-const ListColumn = ({ columns, createNewColumn, createNewCard }) => {
+const ListColumn = ({
+  columns,
+  createNewColumn,
+  createNewCard,
+  deleteColumnDetails,
+}) => {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
   const toggleOpeNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm);
   const [newColumnTitle, setNewColumnTitle] = useState("");
@@ -60,6 +65,7 @@ const ListColumn = ({ columns, createNewColumn, createNewCard }) => {
               key={`${index}-${column._id}`}
               column={column}
               createNewCard={createNewCard}
+              deleteColumnDetails={deleteColumnDetails}
             />
           ))}
 
@@ -103,10 +109,10 @@ const ListColumn = ({ columns, createNewColumn, createNewCard }) => {
             }}
           >
             <TextField
-              label="Enter column title..."
-              type="text"
-              size="small"
-              variant="outlined"
+              label='Enter column title...'
+              type='text'
+              size='small'
+              variant='outlined'
               value={newColumnTitle}
               onChange={(e) => setNewColumnTitle(e.target.value)}
               autoFocus
@@ -131,9 +137,9 @@ const ListColumn = ({ columns, createNewColumn, createNewCard }) => {
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <Button
                 onClick={addNewColumn}
-                variant="contained"
-                color="success"
-                size="small"
+                variant='contained'
+                color='success'
+                size='small'
                 sx={{
                   boxShadow: "none",
                   border: "0.5px solid",
@@ -146,7 +152,7 @@ const ListColumn = ({ columns, createNewColumn, createNewCard }) => {
                 Add column
               </Button>
               <CloseIcon
-                fontSize="small"
+                fontSize='small'
                 sx={{
                   color: "white",
                   cursor: "pointer",

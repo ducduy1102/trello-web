@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import {
   createNewCardAPI,
   createNewColumnAPI,
+  deleteColumnDetailsAPI,
   fetchBoardDetailsAPI,
   moveCardToDifferentColumnAPI,
   updateBoardDetailsAPI,
@@ -20,6 +21,7 @@ import { mapOrder } from "@/utils/sorts";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
+import { toast } from "react-toastify";
 
 const Board = () => {
   const [board, setBoard] = useState(null);
@@ -31,7 +33,7 @@ const Board = () => {
     // Call API
     fetchBoardDetailsAPI(boardId).then((board) => {
       // Sắp xếp thứ tự column ở cha trước khi truyền xuống con
-      board.column = mapOrder(board.columns, board.columnOrderIds, "_id");
+      board.columns = mapOrder(board.columns, board.columnOrderIds, "_id");
 
       board.columns.forEach((column) => {
         // Xử lý kéo thả column rỗng khi f5
@@ -168,6 +170,23 @@ const Board = () => {
     });
   };
 
+  const deleteColumnDetails = async (columnId) => {
+    // Update data state board
+    const newBoard = { ...board };
+    newBoard.columns = newBoard.columns.filter(
+      (column) => column._id !== columnId
+    );
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(
+      (_id) => _id !== columnId
+    );
+    setBoard(newBoard);
+
+    // Call api delete
+    deleteColumnDetailsAPI(columnId).then((res) => {
+      toast.success(res?.deleteResult);
+    });
+  };
+
   if (!board) {
     return (
       <Box
@@ -201,6 +220,7 @@ const Board = () => {
         moveColumns={moveColumns}
         moveCardInTheSameColumn={moveCardInTheSameColumn}
         moveCardToDifferentColumn={moveCardToDifferentColumn}
+        deleteColumnDetails={deleteColumnDetails}
       />
     </Container>
   );

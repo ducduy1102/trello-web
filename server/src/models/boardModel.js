@@ -47,11 +47,11 @@ const createNew = async (data) => {
   }
 };
 
-const findBoardById = async (id) => {
+const findBoardById = async (boardId) => {
   try {
     const result = await GET_DB()
       .collection(BOARD_COLLECTION_NAME)
-      .findOne({ _id: new ObjectId(id) });
+      .findOne({ _id: new ObjectId(boardId) });
     return result;
   } catch (error) {
     throw new Error(error);

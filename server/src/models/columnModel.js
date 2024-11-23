@@ -6,7 +6,7 @@ import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from "~/utils/validators";
 // Define Collection (name & schema)
 const COLUMN_COLLECTION_NAME = "columns";
 const COLUMN_COLLECTION_SCHEMA = Joi.object({
-  columnId: Joi.string()
+  boardId: Joi.string()
     .required()
     .pattern(OBJECT_ID_RULE)
     .message(OBJECT_ID_RULE_MESSAGE),
@@ -37,22 +37,24 @@ const createNew = async (data) => {
     // Convert 1 số dữ liệu liên quan đến ObjectId
     const newColumnToAdd = {
       ...validData,
-      columnId: new ObjectId(validData.columnId),
+      boardId: new ObjectId(validData.boardId),
     };
+
     const createdBoard = await GET_DB()
       .collection(COLUMN_COLLECTION_NAME)
       .insertOne(newColumnToAdd);
+
     return createdBoard;
   } catch (error) {
     throw new Error(error);
   }
 };
 
-const findColumnById = async (id) => {
+const findColumnById = async (columnId) => {
   try {
     const result = await GET_DB()
       .collection(COLUMN_COLLECTION_NAME)
-      .findOne({ _id: new ObjectId(id) });
+      .findOne({ _id: new ObjectId(columnId) });
     return result;
   } catch (error) {
     throw new Error(error);
@@ -112,6 +114,21 @@ const update = async (columnId, updateData) => {
   }
 };
 
+const deleteColumnById = async (columnId) => {
+  try {
+    const result = await GET_DB()
+      .collection(COLUMN_COLLECTION_NAME)
+      .deleteOne({ _id: new ObjectId(columnId) });
+    // console.log(
+    //   "🚀 ~ file: columnModel.js:120 ~ deleteColumnById ~ result:",
+    //   result
+    // );
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 export const columnModel = {
   COLUMN_COLLECTION_NAME,
   COLUMN_COLLECTION_SCHEMA,
@@ -119,4 +136,5 @@ export const columnModel = {
   findColumnById,
   pushCardOrderIds,
   update,
+  deleteColumnById,
 };

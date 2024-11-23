@@ -49,6 +49,7 @@ const update = async (req, res, next) => {
   });
   try {
     // set abortEarly: false case có nhiều lỗi validation thì return all error
+    // Đối với trường hợp update, cho phép Unknow để không cần đẩy 1 số field lên
     await correctCondition.validateAsync(req.body, {
       abortEarly: false,
       allowUnknown: true,
@@ -65,7 +66,29 @@ const update = async (req, res, next) => {
   }
 };
 
+const deleteItem = async (req, res, next) => {
+  // Ko required trong case update
+  const correctCondition = Joi.object({
+    id: Joi.string()
+      .required()
+      .pattern(OBJECT_ID_RULE)
+      .message(OBJECT_ID_RULE_MESSAGE),
+  });
+  try {
+    await correctCondition.validateAsync(req.params);
+    next();
+  } catch (error) {
+    const errorMessage = new Error(error).message;
+    const customError = new ApiError(
+      StatusCodes.UNPROCESSABLE_ENTITY,
+      errorMessage
+    );
+    next(customError);
+  }
+};
+
 export const columnValidation = {
   createNew,
   update,
+  deleteItem,
 };

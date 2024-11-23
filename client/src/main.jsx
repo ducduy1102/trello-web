@@ -7,26 +7,37 @@ import theme from "@/theme";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ConfirmProvider } from "material-ui-confirm";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <CssVarsProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+      <ConfirmProvider
+        defaultOptions={{
+          allowClose: false,
+          dialogProps: { maxWidth: "xs" },
+          buttonOrder: ["confirm", "cancel"],
+          confirmationButtonProps: { color: "secondary" },
+          cancellationButtonProps: { color: "info", variant: "outlined" },
+        }}
+      >
+        <CssBaseline />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+        <ToastContainer
+          position='top-right'
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme='colored'
+        />
+      </ConfirmProvider>
     </CssVarsProvider>
   </StrictMode>
 );
