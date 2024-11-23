@@ -99,6 +99,8 @@ const getDetails = async (id) => {
 };
 
 // Push columnId vào cuối mảng columnOrderIds
+// Đẩy 1 phẩn tử columnId vào cuối mảng columnOrderIds
+// Dùng $push trong mongoDB ở case này để thêm 1 ptu vào cuối
 const pushColumnOrderIds = async (column) => {
   try {
     const result = await GET_DB()
@@ -108,6 +110,27 @@ const pushColumnOrderIds = async (column) => {
         { _id: new ObjectId(column.boardId) },
         // update
         { $push: { columnOrderIds: new ObjectId(column._id) } },
+        // options: "after" returns the updated document
+        { returnDocument: "after" }
+      );
+
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+// Lấy 1 phẩn tử columnId ra khỏi mảng columnOrderIds
+// Dùng $pull trong mongoDB ở case này để lấy 1 ptu ra khỏi mảng rồi xóa nó
+const pullColumnOrderIds = async (column) => {
+  try {
+    const result = await GET_DB()
+      .collection(BOARD_COLLECTION_NAME)
+      .findOneAndUpdate(
+        // filter
+        { _id: new ObjectId(column.boardId) },
+        // update
+        { $pull: { columnOrderIds: new ObjectId(column._id) } },
         // options: "after" returns the updated document
         { returnDocument: "after" }
       );
@@ -158,5 +181,6 @@ export const boardModel = {
   findBoardById,
   getDetails,
   pushColumnOrderIds,
+  pullColumnOrderIds,
   update,
 };

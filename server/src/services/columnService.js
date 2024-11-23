@@ -1,6 +1,8 @@
+import { StatusCodes } from "http-status-codes";
 import { boardModel } from "~/models/boardModel";
 import { cardModel } from "~/models/cardModel";
 import { columnModel } from "~/models/columnModel";
+import ApiError from "~/utils/ApiError";
 
 const createNew = async (data) => {
   try {
@@ -46,14 +48,16 @@ const update = async (columnId, data) => {
 const deleteItem = async (columnId) => {
   // eslint-disable-next-line no-useless-catch
   try {
+    const targetColumn = await columnModel.findColumnById(columnId);
+
     // Xóa Column
     await columnModel.deleteColumnById(columnId);
 
     // Xóa Cards thuộc Column trên
     await cardModel.deleteManyByColumnId(columnId);
 
-    // Update Column
-    // const updatedColumn = await columnModel.deleteItem(columnId);
+    // Xóa columnId trong mảng columnOrderIds của Boards
+    await boardModel.pullColumnOrderIds(targetColumn);
 
     return { deleteResult: "Column and its Cards deleted successfully!" };
   } catch (error) {
