@@ -8,9 +8,12 @@ import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ConfirmProvider } from "material-ui-confirm";
+// Redux store
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  <Provider store={store}>
     <CssVarsProvider theme={theme}>
       <ConfirmProvider
         defaultOptions={{
@@ -39,5 +42,5 @@ createRoot(document.getElementById("root")).render(
         />
       </ConfirmProvider>
     </CssVarsProvider>
-  </StrictMode>
+  </Provider>
 );
