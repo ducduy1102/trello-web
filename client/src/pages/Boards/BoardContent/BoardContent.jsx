@@ -28,12 +28,9 @@ const ACTIVE_DRAG_ITEM_TYPE = {
 
 const BoardContent = ({
   board,
-  createNewColumn,
-  createNewCard,
   moveColumns,
   moveCardInTheSameColumn,
   moveCardToDifferentColumn,
-  deleteColumnDetails,
 }) => {
   // Change position in columnOrderIds of mock-data => sort columns
   // Cùng 1 thời điểm chỉ có 1 phần tử dc kéo (column / card)
@@ -422,12 +419,7 @@ const BoardContent = ({
           p: "10px 0",
         }}
       >
-        <ListColumn
-          columns={orderedColumns}
-          createNewColumn={createNewColumn}
-          createNewCard={createNewCard}
-          deleteColumnDetails={deleteColumnDetails}
-        />
+        <ListColumn columns={orderedColumns} />
         <DragOverlay dropAnimation={dropAnimation}>
           {!activeDragItemType && null}
           {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (

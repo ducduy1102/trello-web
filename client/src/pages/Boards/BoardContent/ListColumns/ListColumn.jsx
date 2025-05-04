@@ -10,29 +10,51 @@ import {
   horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { toast } from "react-toastify";
+import { createNewColumnAPI } from "@/apis";
+import { generatePlaceholderCard } from "@/utils/formatters";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectCurrentActiveBoard,
+  updateCurrentActiveBoard,
+} from "@/redux/activeBoard/activeBoardSlice";
+import { cloneDeep } from "lodash";
 
-const ListColumn = ({
-  columns,
-  createNewColumn,
-  createNewCard,
-  deleteColumnDetails,
-}) => {
+const ListColumn = ({ columns }) => {
+  const dispatch = useDispatch();
+  const board = useSelector(selectCurrentActiveBoard);
+
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
   const toggleOpeNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm);
   const [newColumnTitle, setNewColumnTitle] = useState("");
 
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error("Please enter Column Title");
       return;
     }
-    // console.log(newColumnTitle);
+
     // Call API
     const newColumnData = {
       title: newColumnTitle,
     };
 
-    createNewColumn(newColumnData);
+    // Call api create new column và update lại data state board
+    const createdColumn = await createNewColumnAPI({
+      ...newColumnData,
+      boardId: board._id,
+    });
+
+    // Xử lý kéo thả 1 column rỗng khi tạo mới column
+    createdColumn.cards = [generatePlaceholderCard(createdColumn)];
+    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id];
+
+    // Cập nhật state board
+    const newBoard = cloneDeep(board);
+    newBoard.columns.push(createdColumn);
+    newBoard.columnOrderIds.push(createdColumn._id);
+
+    dispatch(updateCurrentActiveBoard(newBoard));
+    //End call api create new column và update lại data state board
 
     toggleOpeNewColumnForm();
     setNewColumnTitle("");
@@ -61,12 +83,7 @@ const ListColumn = ({
       >
         {columns.length > 0 &&
           columns.map((column, index) => (
-            <Column
-              key={`${index}-${column._id}`}
-              column={column}
-              createNewCard={createNewCard}
-              deleteColumnDetails={deleteColumnDetails}
-            />
+            <Column key={`${index}-${column._id}`} column={column} />
           ))}
 
         {/* Box add new column */}
