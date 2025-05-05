@@ -24,7 +24,7 @@ export const fetchBoardDetailsAPI = createAsyncThunk(
 export const activeBoardSlice = createSlice({
   name: "activeBoard",
   initialState,
-  // Synchronous data processing
+  // reducers: Nơi xử lý data đồng bộ
   reducers: {
     updateCurrentActiveBoard: (state, action) => {
       const board = action.payload;

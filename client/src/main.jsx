@@ -13,34 +13,34 @@ import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 
 createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <CssVarsProvider theme={theme}>
-      <ConfirmProvider
-        defaultOptions={{
-          allowClose: false,
-          dialogProps: { maxWidth: "xs" },
-          buttonOrder: ["confirm", "cancel"],
-          confirmationButtonProps: { color: "secondary" },
-          cancellationButtonProps: { color: "info", variant: "outlined" },
-        }}
-      >
-        <CssBaseline />
-        <BrowserRouter>
+  <BrowserRouter basename='/'>
+    <Provider store={store}>
+      <CssVarsProvider theme={theme}>
+        <ConfirmProvider
+          defaultOptions={{
+            allowClose: false,
+            dialogProps: { maxWidth: "xs" },
+            buttonOrder: ["confirm", "cancel"],
+            confirmationButtonProps: { color: "secondary" },
+            cancellationButtonProps: { color: "info", variant: "outlined" },
+          }}
+        >
+          <CssBaseline />
           <App />
-        </BrowserRouter>
-        <ToastContainer
-          position='top-right'
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme='colored'
-        />
-      </ConfirmProvider>
-    </CssVarsProvider>
-  </Provider>
+          <ToastContainer
+            position='top-right'
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme='colored'
+          />
+        </ConfirmProvider>
+      </CssVarsProvider>
+    </Provider>
+  </BrowserRouter>
 );
