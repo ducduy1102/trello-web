@@ -10,11 +10,29 @@ import CardActions from "@mui/material/CardActions";
 import TextField from "@mui/material/TextField";
 import Zoom from "@mui/material/Zoom";
 import Alert from "@mui/material/Alert";
+import { useForm } from "react-hook-form";
+import FieldErrorAlert from "@/components/Form/FieldErrorAlert";
+import {
+  EMAIL_RULE,
+  EMAIL_RULE_MESSAGE,
+  FIELD_REQUIRED_MESSAGE,
+  PASSWORD_RULE,
+  PASSWORD_RULE_MESSAGE,
+} from "@/utils/validators";
 
 function LoginForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const submitLogIn = (data) => {
+    console.log(data);
+  };
+
   return (
-    // <form onSubmit={handleSubmit(submitLogIn)}>
-    <form>
+    <form onSubmit={handleSubmit(submitLogIn)}>
       <Zoom in={true} style={{ transitionDelay: "200ms" }}>
         <MuiCard sx={{ minWidth: 380, maxWidth: 380, marginTop: "6em" }}>
           <Box
@@ -90,7 +108,16 @@ function LoginForm() {
                 label='Enter Email...'
                 type='text'
                 variant='outlined'
+                error={!!errors["email"]}
+                {...register("email", {
+                  required: FIELD_REQUIRED_MESSAGE,
+                  pattern: {
+                    value: EMAIL_RULE,
+                    message: EMAIL_RULE_MESSAGE,
+                  },
+                })}
               />
+              <FieldErrorAlert errors={errors} fieldName={"email"} />
             </Box>
             <Box sx={{ marginTop: "1em" }}>
               <TextField
@@ -98,7 +125,16 @@ function LoginForm() {
                 label='Enter Password...'
                 type='password'
                 variant='outlined'
+                error={!!errors["password"]}
+                {...register("password", {
+                  required: FIELD_REQUIRED_MESSAGE,
+                  pattern: {
+                    value: PASSWORD_RULE,
+                    message: PASSWORD_RULE_MESSAGE,
+                  },
+                })}
               />
+              <FieldErrorAlert errors={errors} fieldName={"password"} />
             </Box>
           </Box>
           <CardActions sx={{ padding: "0 1em 1em 1em" }}>

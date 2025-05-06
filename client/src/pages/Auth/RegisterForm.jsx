@@ -9,11 +9,30 @@ import TrelloIcon from "@/assets/trello.svg?react";
 import CardActions from "@mui/material/CardActions";
 import TextField from "@mui/material/TextField";
 import Zoom from "@mui/material/Zoom";
+import { useForm } from "react-hook-form";
+import FieldErrorAlert from "@/components/Form/FieldErrorAlert";
+import {
+  EMAIL_RULE,
+  EMAIL_RULE_MESSAGE,
+  FIELD_REQUIRED_MESSAGE,
+  PASSWORD_RULE,
+  PASSWORD_RULE_MESSAGE,
+} from "@/utils/validators";
 
 function RegisterForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
+
+  const submitRegister = (data) => {
+    console.log(data);
+  };
+
   return (
-    // <form onSubmit={handleSubmit(submitRegister)}>
-    <form>
+    <form onSubmit={handleSubmit(submitRegister)}>
       <Zoom in={true} style={{ transitionDelay: "200ms" }}>
         <MuiCard sx={{ minWidth: 380, maxWidth: 380, marginTop: "6em" }}>
           <Box
@@ -50,7 +69,16 @@ function RegisterForm() {
                 label='Enter Email...'
                 type='text'
                 variant='outlined'
+                error={!!errors["email"]}
+                {...register("email", {
+                  required: FIELD_REQUIRED_MESSAGE,
+                  pattern: {
+                    value: EMAIL_RULE,
+                    message: EMAIL_RULE_MESSAGE,
+                  },
+                })}
               />
+              <FieldErrorAlert errors={errors} fieldName={"email"} />
             </Box>
             <Box sx={{ marginTop: "1em" }}>
               <TextField
@@ -58,7 +86,16 @@ function RegisterForm() {
                 label='Enter Password...'
                 type='password'
                 variant='outlined'
+                error={!!errors["password"]}
+                {...register("password", {
+                  required: FIELD_REQUIRED_MESSAGE,
+                  pattern: {
+                    value: PASSWORD_RULE,
+                    message: PASSWORD_RULE_MESSAGE,
+                  },
+                })}
               />
+              <FieldErrorAlert errors={errors} fieldName={"password"} />
             </Box>
             <Box sx={{ marginTop: "1em" }}>
               <TextField
@@ -66,6 +103,20 @@ function RegisterForm() {
                 label='Enter Password Confirmation...'
                 type='password'
                 variant='outlined'
+                error={!!errors["password_confirmation"]}
+                {...register("password_confirmation", {
+                  required: FIELD_REQUIRED_MESSAGE,
+                  validate: (value) => {
+                    if (value === watch("password")) {
+                      return true;
+                    }
+                    return "Password confirmation does not match!";
+                  },
+                })}
+              />
+              <FieldErrorAlert
+                errors={errors}
+                fieldName={"password_confirmation"}
               />
             </Box>
           </Box>
