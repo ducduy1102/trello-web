@@ -1,8 +1,8 @@
+import authorizedAxiosInstance from "@/utils/authorizeAxios";
 import { API_ROOT } from "@/utils/constants";
 import { generatePlaceholderCard } from "@/utils/formatters";
 import { mapOrder } from "@/utils/sorts";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { isEmpty } from "lodash";
 
 // Create value state of slice
@@ -15,10 +15,30 @@ const initialState = {
 export const fetchBoardDetailsAPI = createAsyncThunk(
   "activeBoard/fetchBoardDetailsAPI",
   async (boardId) => {
-    const response = await axios.get(`${API_ROOT}/v1/boards/${boardId}`);
+    const response = await authorizedAxiosInstance.get(
+      `${API_ROOT}/v1/boards/${boardId}`
+    );
     return response.data;
   }
 );
+// export const fetchBoardDetailsAPI = createAsyncThunk(
+//   "activeBoard/fetchBoardDetailsAPI",
+//   async (boardId, { rejectWithValue }) => {
+//     try {
+//       const response = await authorizedAxiosInstance.get(
+//         `${API_ROOT}/v1/boards/${boardId}`
+//       );
+//       console.log("rss", response);
+//       return response.data;
+//     } catch (error) {
+//       // Log lỗi để kiểm tra
+//       console.error("Error in fetchBoardDetailsAPI:", error);
+
+//       // Sử dụng rejectWithValue để trả về lỗi
+//       return rejectWithValue(error.response?.data || error.message);
+//     }
+//   }
+// );
 
 // Create slice on store
 export const activeBoardSlice = createSlice({
