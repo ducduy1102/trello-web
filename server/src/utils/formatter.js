@@ -1,3 +1,5 @@
+import { pick } from "lodash";
+
 /**
  * Simple method to Convert a String to Slug
  * Tham khảo thêm kiến thức liên quan ở đây: https://byby.dev/js-slugify-string
@@ -28,3 +30,21 @@ export const slugify = (val) => {
  * Original String Test: 'Evil Shadow Một Lập Trình Viên'
  * Slug Result: evil-shadow-mot-lap-trinh-vien
  */
+
+// Lấy một số dữ liệu cụ thể trong Người dùng để tránh trả về dữ liệu nhạy cảm như băm mật khẩu
+// https://lodash.com/docs/#pick
+export const pickUser = (user) => {
+  if (!user) return {};
+
+  return pick(user, [
+    "_id",
+    "email",
+    "username",
+    "displayName",
+    "avatar",
+    "role",
+    "isActive",
+    "createdAt",
+    "updatedAt",
+  ]);
+};
