@@ -4,6 +4,8 @@ import { userModel } from "~/models/userModel";
 import ApiError from "~/utils/ApiError";
 import { v4 as uuidv4 } from "uuid";
 import { pickUser } from "~/utils/formatter";
+import { WEBSITE_DOMAINS } from "~/utils/constants";
+import { BrevoProvider } from "~/providers/BrevoProvider";
 
 const createNew = async (reqBody) => {
   try {
@@ -28,6 +30,18 @@ const createNew = async (reqBody) => {
     const getNewUser = await userModel.findOneById(createdUser.insertedId);
 
     // Send email to verify account
+    const verificationLink = `${WEBSITE_DOMAINS}/account/verification?email=${getNewUser.email}&token=${getNewUser.verifyToken}`;
+    const customSubject =
+      "Trello DucDuy App: Please verify your email before using our services!";
+    const htmlContent = `
+      <h3>Here is your verification link:</h3> X
+      <h3>${verificationLink}</h3>
+      <h3>Sincerely, <br/> - Ducduydev - A Programmer </h3>
+    `;
+
+    // Call Provider send email
+    await BrevoProvider.sendEmail(getNewUser.email, customSubject, htmlContent);
+
     // Return data to Controller
     return pickUser(getNewUser);
   } catch (error) {
