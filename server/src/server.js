@@ -8,9 +8,21 @@ import { APIs_V1 } from "~/routes/v1";
 import { errorHandlingMiddleware } from "./middlewares/errorHandlingMiddleware";
 import { corsOptions } from "./config/cors";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const START_SERVER = () => {
   const app = express();
+
+  // https://stackoverflow.com/questions/22632593/how-to-disable-webpage-caching-in-expressjs-nodejs/53240717#53240717
+  // Fix 'cache from disk' of ExpressJS
+  app.use((req, res, next) => {
+    res.set("Cache-Control", "no-store");
+    next();
+  });
+
+  // Cấu hình cookie parser
+  app.use(cookieParser());
+
   // app.use(cors()); // mọi nơi đều dc truy cập tài nguyên
   // Config xử lý cors cho từng domain dc phép truy cập
   app.use(cors(corsOptions));
