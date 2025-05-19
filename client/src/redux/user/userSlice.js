@@ -9,7 +9,7 @@ const initialState = {
 
 // https://redux-toolkit.js.org/api/createAsyncThunk
 export const loginUserAPI = createAsyncThunk(
-  "activeBoard/loginUserAPI",
+  "user/loginUserAPI",
   async (data) => {
     const response = await authorizedAxiosInstance.post(
       `${API_ROOT}/v1/users/login`,

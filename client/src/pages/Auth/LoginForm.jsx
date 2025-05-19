@@ -45,7 +45,7 @@ function LoginForm() {
         pending: "Logging in...",
       })
       .then((res) => {
-        console.log("res", res);
+        // console.log("res", res);
         // login no error (login successfully) => navigate to route "/"
         if (!res.error) navigate("/");
       });

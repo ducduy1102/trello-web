@@ -11,36 +11,42 @@ import { ConfirmProvider } from "material-ui-confirm";
 // Redux store
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+
+const persistor = persistStore(store);
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter basename='/'>
     <Provider store={store}>
-      <CssVarsProvider theme={theme}>
-        <ConfirmProvider
-          defaultOptions={{
-            allowClose: false,
-            dialogProps: { maxWidth: "xs" },
-            buttonOrder: ["confirm", "cancel"],
-            confirmationButtonProps: { color: "secondary" },
-            cancellationButtonProps: { color: "info", variant: "outlined" },
-          }}
-        >
-          <CssBaseline />
-          <App />
-          <ToastContainer
-            position='top-right'
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme='colored'
-          />
-        </ConfirmProvider>
-      </CssVarsProvider>
+      <PersistGate persistor={persistor}>
+        <CssVarsProvider theme={theme}>
+          <ConfirmProvider
+            defaultOptions={{
+              allowClose: false,
+              dialogProps: { maxWidth: "xs" },
+              buttonOrder: ["confirm", "cancel"],
+              confirmationButtonProps: { color: "secondary" },
+              cancellationButtonProps: { color: "info", variant: "outlined" },
+            }}
+          >
+            <CssBaseline />
+            <App />
+            <ToastContainer
+              position='top-right'
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme='colored'
+            />
+          </ConfirmProvider>
+        </CssVarsProvider>
+      </PersistGate>
     </Provider>
   </BrowserRouter>
 );
