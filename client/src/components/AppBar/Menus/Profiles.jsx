@@ -10,8 +10,14 @@ import IconButton from "@mui/material/IconButton";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import { useConfirm } from "material-ui-confirm";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUserAPI, selectCurrentUser } from "@/redux/user/userSlice";
 
 const Profiles = () => {
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -21,29 +27,46 @@ const Profiles = () => {
     setAnchorEl(null);
   };
 
+  const confirmLogout = useConfirm();
+  const handleLogout = () => {
+    confirmLogout({
+      title: "Log out of your account?",
+      confirmationText: "Confirm",
+      cancellationText: "Cancel",
+    })
+      .then(() => {
+        dispatch(logoutUserAPI());
+      })
+      .catch(() => {});
+  };
+
   return (
     <Box>
-      <Tooltip title="Account settings">
+      <Tooltip title='Account settings'>
         <IconButton
           onClick={handleClick}
-          size="small"
+          size='small'
           sx={{ padding: 0 }}
           aria-controls={open ? "account-menu" : undefined}
-          aria-haspopup="true"
+          aria-haspopup='true'
           aria-expanded={open ? "true" : undefined}
         >
           <Avatar
             sx={{ width: 36, height: 36 }}
-            alt="Evil Shadow"
-            src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
+            alt='Evil Shadow'
+            src={
+              currentUser?.avatar ||
+              "https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
+            }
           />
         </IconButton>
       </Tooltip>
       <Menu
-        id="basic-menu-profiles"
+        id='basic-menu-profiles'
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        onClick={handleClose}
         MenuListProps={{
           "aria-labelledby": "basic-button-profiles",
         }}
@@ -79,38 +102,57 @@ const Profiles = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        <MenuItem
+          sx={{
+            "&:hover": {
+              color: "success.light",
+            },
+          }}
+        >
           <Avatar
             sx={{ width: 28, height: 28, mr: 2 }}
-            alt="Evil Shadow"
-            src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-          />{" "}
+            alt='Evil Shadow'
+            src={
+              currentUser?.avatar ||
+              "https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
+            }
+          />
           Profile
         </MenuItem>
-        <MenuItem>
+        {/* <MenuItem>
           <Avatar
             sx={{ width: 28, height: 28, mr: 2 }}
             alt="Evil Shadow"
             src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
           />{" "}
           My account
-        </MenuItem>
+        </MenuItem> */}
         <Divider />
         <MenuItem>
           <ListItemIcon>
-            <PersonAdd fontSize="small" />
+            <PersonAdd fontSize='small' />
           </ListItemIcon>
           Add another account
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
-            <Settings fontSize="small" />
+            <Settings fontSize='small' />
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem>
+        <MenuItem
+          onClick={handleLogout}
+          sx={{
+            "&:hover": {
+              color: "warning.dark",
+              "& .loggout-icon": {
+                color: "warning.dark",
+              },
+            },
+          }}
+        >
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <Logout className='loggout-icon' fontSize='small' />
           </ListItemIcon>
           Logout
         </MenuItem>
