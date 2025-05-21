@@ -79,7 +79,7 @@ const refreshToken = async (req, res, next) => {
   } catch (error) {
     next(
       new ApiError(
-        StatusCodes.UNAUTHORIZED,
+        StatusCodes.FORBIDDEN,
         "Please sign in! (Error from refresh token)"
       )
     );
