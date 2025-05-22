@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "@/App.jsx";
 import CssBaseline from "@mui/material/CssBaseline";
+import GlobalStyles from "@mui/material/GlobalStyles";
 import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";
 import theme from "@/theme";
 import { BrowserRouter } from "react-router-dom";
@@ -34,6 +35,7 @@ createRoot(document.getElementById("root")).render(
               cancellationButtonProps: { color: "info", variant: "outlined" },
             }}
           >
+            <GlobalStyles styles={{ a: { textDecoration: "none" } }} />
             <CssBaseline />
             <App />
             <ToastContainer

@@ -13,6 +13,7 @@ import Logout from "@mui/icons-material/Logout";
 import { useConfirm } from "material-ui-confirm";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUserAPI, selectCurrentUser } from "@/redux/user/userSlice";
+import { Link } from "react-router-dom";
 
 const Profiles = () => {
   const dispatch = useDispatch();
@@ -102,23 +103,25 @@ const Profiles = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem
-          sx={{
-            "&:hover": {
-              color: "success.light",
-            },
-          }}
-        >
-          <Avatar
-            sx={{ width: 28, height: 28, mr: 2 }}
-            alt='Evil Shadow'
-            src={
-              currentUser?.avatar ||
-              "https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-            }
-          />
-          Profile
-        </MenuItem>
+        <Link to='/settings/account' style={{ color: "inherit" }}>
+          <MenuItem
+            sx={{
+              "&:hover": {
+                color: "success.light",
+              },
+            }}
+          >
+            <Avatar
+              sx={{ width: 28, height: 28, mr: 2 }}
+              alt='Evil Shadow'
+              src={
+                currentUser?.avatar ||
+                "https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
+              }
+            />
+            Profile
+          </MenuItem>
+        </Link>
         {/* <MenuItem>
           <Avatar
             sx={{ width: 28, height: 28, mr: 2 }}
