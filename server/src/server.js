@@ -26,6 +26,7 @@ const START_SERVER = () => {
   // app.use(cors()); // mọi nơi đều dc truy cập tài nguyên
   // Config xử lý cors cho từng domain dc phép truy cập
   app.use(cors(corsOptions));
+  app.options("*", cors(corsOptions)); // xử lý preflight request
 
   const hostname = env.APP_HOST;
   const port = env.APP_PORT || 8888;
