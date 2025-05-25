@@ -2,6 +2,7 @@ import express from "express";
 import { userValidation } from "~/validations/userValidation";
 import { userController } from "~/controllers/userController";
 import { authMiddleware } from "~/middlewares/authMiddleware";
+import { multerUploadMiddleware } from "~/middlewares/multerUploadMiddleware";
 
 const Router = express.Router();
 
@@ -21,8 +22,10 @@ Router.route("/logout").delete(userController.logout);
 
 Router.route("/refresh_token").get(userController.refreshToken);
 
+// single('avatar'): avatar key đẩy lên từ FE ở accountTab
 Router.route("/update").put(
   authMiddleware.isAuthorized,
+  multerUploadMiddleware.upload.single('avatar'),
   userValidation.update,
   userController.update
 );
