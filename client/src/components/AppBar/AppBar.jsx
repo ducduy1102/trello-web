@@ -52,7 +52,11 @@ const AppBar = () => {
           gap: 2,
         }}
       >
-        <AppsIcon sx={{ color: "white" }} />
+        <Link to='/boards'>
+          <Tooltip title='Board List'>
+            <AppsIcon sx={{ color: "white", verticalAlign: "middle" }} />
+          </Tooltip>
+        </Link>
         {/* <img src={trelloLogo} width={24} height={24} alt="Trello" /> */}
         <Link to='/'>
           <Box
