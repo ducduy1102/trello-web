@@ -32,12 +32,7 @@ function App() {
       {/* Routes chứa danh sách các route. */}
       {/* Route định nghĩa đường dẫn và component tương ứng. */}
       {/* React Router Dom */}
-      <Route
-        path='/'
-        element={
-          <Navigate to={"/boards/6738aa385aacfca400f0a002"} replace={true} />
-        }
-      />
+      <Route path='/' element={<Navigate to={"/boards"} replace={true} />} />
       <Route element={<ProtectedRoute user={currentUser} />}>
         {/* Board Details */}
         <Route path='/boards/:boardId' element={<Board />} />

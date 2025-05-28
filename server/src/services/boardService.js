@@ -4,6 +4,7 @@ import { boardModel } from "~/models/boardModel";
 import { cardModel } from "~/models/cardModel";
 import { columnModel } from "~/models/columnModel";
 import ApiError from "~/utils/ApiError";
+import { DEFAULT_ITEMS_PER_PAGE, DEFAULT_PAGE } from "~/utils/constants";
 import { slugify } from "~/utils/formatter";
 
 const createNew = async (data) => {
@@ -104,9 +105,26 @@ const moveCardToDifferentColumn = async (data) => {
   }
 };
 
+const getBoards = async (userId, page, itemsPerPage) => {
+  try {
+    if (!page) page = DEFAULT_PAGE;
+    if (!itemsPerPage) itemsPerPage = DEFAULT_ITEMS_PER_PAGE;
+
+    const results = await boardModel.getBoards(
+      userId,
+      parseInt(page, 10),
+      parseInt(itemsPerPage, 10)
+    );
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const boardService = {
   createNew,
   getDetails,
   update,
   moveCardToDifferentColumn,
+  getBoards,
 };

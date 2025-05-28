@@ -58,9 +58,22 @@ const moveCardToDifferentColumn = async (req, res, next) => {
   }
 };
 
+const getBoards = async (req, res, next) => {
+  try {
+    const userId = req.jwtDecoded._id;
+    // page and itemsPerPage are passed into the query url from FE side so BE will get it through req.query
+    const { page, itemsPerPage } = req.query;
+    const results = await boardService.getBoards(userId, page, itemsPerPage);
+    res.status(StatusCodes.OK).json(results);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const boardController = {
   createNew,
   getDetails,
   update,
   moveCardToDifferentColumn,
+  getBoards,
 };
