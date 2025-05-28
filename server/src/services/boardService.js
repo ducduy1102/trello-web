@@ -7,7 +7,7 @@ import ApiError from "~/utils/ApiError";
 import { DEFAULT_ITEMS_PER_PAGE, DEFAULT_PAGE } from "~/utils/constants";
 import { slugify } from "~/utils/formatter";
 
-const createNew = async (data) => {
+const createNew = async (userId, data) => {
   try {
     // Xử lý logic data
     const newBoard = {
@@ -15,7 +15,7 @@ const createNew = async (data) => {
       slug: slugify(data.title),
     };
     // Gọi tới model để xử lý lưu bản ghi newBoard vào trong database
-    const createdBoard = await boardModel.createNew(newBoard);
+    const createdBoard = await boardModel.createNew(userId, newBoard);
 
     // Lấy bản ghi board sau khi tạo
     const getNewBoard = await boardModel.findBoardById(createdBoard.insertedId);
@@ -25,10 +25,10 @@ const createNew = async (data) => {
   }
 };
 
-const getDetails = async (boardId) => {
+const getDetails = async (userId, boardId) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const board = await boardModel.getDetails(boardId);
+    const board = await boardModel.getDetails(userId, boardId);
     if (!board) {
       throw new ApiError(StatusCodes.NOT_FOUND, "Board not found!");
     }
