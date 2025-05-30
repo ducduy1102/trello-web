@@ -11,6 +11,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Button from "@mui/material/Button";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { capitalizeFirstLetter } from "@/utils/formatters";
+import BoardUserGroup from "./BoardUserGroup";
 
 const MENU_STYLES = {
   color: "white",
@@ -70,19 +71,19 @@ const BoardBar = ({ board }) => {
         <Chip
           sx={MENU_STYLES}
           icon={<AddToDriveIcon />}
-          label="Add to Drive Workspace"
+          label='Add to Drive Workspace'
           clickable
         />
         <Chip
           sx={MENU_STYLES}
           icon={<BoltIcon />}
-          label="Automation"
+          label='Automation'
           clickable
         />
         <Chip
           sx={MENU_STYLES}
           icon={<FilterListIcon />}
-          label="Filter"
+          label='Filter'
           clickable
         />
       </Box>
@@ -94,7 +95,7 @@ const BoardBar = ({ board }) => {
         }}
       >
         <Button
-          variant="outlined"
+          variant='outlined'
           startIcon={<PersonAddIcon />}
           sx={{
             color: "white",
@@ -106,106 +107,8 @@ const BoardBar = ({ board }) => {
         >
           Invite
         </Button>
-
-        <AvatarGroup
-          max={7}
-          sx={{
-            "& .MuiAvatar-root": {
-              width: 33,
-              height: 33,
-              fontSize: 16,
-              border: "none",
-              color: "white",
-              cursor: "pointer",
-              "&:first-of-type": { bgcolor: "#a4b0be" },
-            },
-          }}
-        >
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://images.unsplash.com/photo-1730337904190-20012bf4aa18?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDJ8SnBnNktpZGwtSGt8fGVufDB8fHx8fA%3D%3D"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://images.unsplash.com/photo-1730454947290-492fb500eabf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDV8SnBnNktpZGwtSGt8fGVufDB8fHx8fA%3D%3D"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://images.unsplash.com/photo-1730326936991-3592547b7d26?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDZ8SnBnNktpZGwtSGt8fGVufDB8fHx8fA%3D%3D"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://images.unsplash.com/photo-1719216323141-0490fa1989e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDE3fEpwZzZLaWRsLUhrfHxlbnwwfHx8fHw%3D"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://images.unsplash.com/photo-1730322477687-7287e8ab4d55?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDI4fEpwZzZLaWRsLUhrfHxlbnwwfHx8fHw%3D"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://images.unsplash.com/photo-1730277400938-f00e87a5fe28?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDI5fEpwZzZLaWRsLUhrfHxlbnwwfHx8fHw%3D"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-            />
-          </Tooltip>
-          <Tooltip title="evilshadow">
-            <Avatar
-              alt="Evil Shadow"
-              src="https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-            />
-          </Tooltip>
-        </AvatarGroup>
+        {/* Show list members of board */}
+        <BoardUserGroup />
       </Box>
     </Box>
   );

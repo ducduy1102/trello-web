@@ -9,8 +9,12 @@ import CommentIcon from "@mui/icons-material/Comment";
 import AttachmentIcon from "@mui/icons-material/Attachment";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useDispatch } from "react-redux";
+import { updateCurrentActiveCard } from "@/redux/activeCard/activeCardSlice";
 
 const CardItem = ({ card }) => {
+  const dispatch = useDispatch();
+
   const {
     attributes,
     listeners,
@@ -38,8 +42,14 @@ const CardItem = ({ card }) => {
     );
   };
 
+  const setActiveCard = () => {
+    // Update data for activeCard in Redux
+    dispatch(updateCurrentActiveCard(card));
+  };
+
   return (
     <MuiCard
+      onClick={setActiveCard}
       ref={setNodeRef}
       style={dndKitCardStyles}
       {...attributes}
@@ -72,20 +82,20 @@ const CardItem = ({ card }) => {
       {showCardAction() && (
         <CardActions sx={{ p: "0 4px 8px 4px" }}>
           {!!card?.memberIds?.length && (
-            <Button size="small" startIcon={<GroupIcon />}>
+            <Button size='small' startIcon={<GroupIcon />}>
               {card?.memberIds.length}
             </Button>
           )}
 
           {card?.comments.length > 0 && (
-            <Button size="small" startIcon={<CommentIcon />}>
+            <Button size='small' startIcon={<CommentIcon />}>
               {card?.comments.length}
             </Button>
           )}
 
           {card?.attachments.length > 0 && (
             <Button
-              size="small"
+              size='small'
               startIcon={<AttachmentIcon sx={{ rotate: "-45deg" }} />}
             >
               {card?.attachments.length}
