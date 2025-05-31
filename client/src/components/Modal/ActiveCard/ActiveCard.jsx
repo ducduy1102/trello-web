@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
@@ -72,7 +71,7 @@ function ActiveCard() {
   const activeCard = useSelector(selectCurrentActiveCard);
   const isShowModalActiveCard = useSelector(selectIsShowModalActiveCard);
 
-  // Không dùng biến state đóng/mở modal => check ở Board->_id.jsx
+  // Không dùng biến state đóng/mở modal => check theo biến isShowModalActiveCard trong redux
   // const [isOpen, setIsOpen] = useState(true);
   // const handleOpenModal = () => setIsOpen(true);
   const handleCloseModal = () => {
@@ -117,6 +116,11 @@ function ActiveCard() {
         error: "Update failed!",
       }
     );
+  };
+
+  // Dùng async/await để component con CardActivitySection chờ nếu thành công thì mới clear thẻ input comment
+  const onAddCardComment = async (commentToAdd) => {
+    await callApiUpdateCard({ commentToAdd });
   };
 
   return (
@@ -236,7 +240,10 @@ function ActiveCard() {
               </Box>
 
               {/* Feature 04: Xử lý các hành động, ví dụ comment vào Card */}
-              <CardActivitySection />
+              <CardActivitySection
+                cardComments={activeCard?.comments}
+                onAddCardComment={onAddCardComment}
+              />
             </Box>
           </Grid>
 

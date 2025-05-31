@@ -98,14 +98,14 @@ const CardItem = ({ card }) => {
             </Button>
           )}
 
-          {card?.attachments.length > 0 && (
+          {/* {card?.attachments.length > 0 && (
             <Button
               size='small'
               startIcon={<AttachmentIcon sx={{ rotate: "-45deg" }} />}
             >
               {card?.attachments.length}
             </Button>
-          )}
+          )} */}
         </CardActions>
       )}
       {/* <Button size="small" startIcon={<GroupIcon />}>
