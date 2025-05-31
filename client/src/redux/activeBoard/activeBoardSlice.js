@@ -21,24 +21,6 @@ export const fetchBoardDetailsAPI = createAsyncThunk(
     return response.data;
   }
 );
-// export const fetchBoardDetailsAPI = createAsyncThunk(
-//   "activeBoard/fetchBoardDetailsAPI",
-//   async (boardId, { rejectWithValue }) => {
-//     try {
-//       const response = await authorizedAxiosInstance.get(
-//         `${API_ROOT}/v1/boards/${boardId}`
-//       );
-//       console.log("rss", response);
-//       return response.data;
-//     } catch (error) {
-//       // Log lỗi để kiểm tra
-//       console.error("Error in fetchBoardDetailsAPI:", error);
-
-//       // Sử dụng rejectWithValue để trả về lỗi
-//       return rejectWithValue(error.response?.data || error.message);
-//     }
-//   }
-// );
 
 // Create slice on store
 export const activeBoardSlice = createSlice({
@@ -53,6 +35,29 @@ export const activeBoardSlice = createSlice({
 
       // Update data
       state.currentActiveBoard = board;
+    },
+    updateCardInBoard: (state, action) => {
+      // Update nested data
+      // https://redux-toolkit.js.org/usage/immer-reducers#updating-nested-data
+      const incomingCard = action.payload;
+
+      // Find board -> column -> card
+      const column = state.currentActiveBoard.columns.find(
+        (i) => i._id === incomingCard.columnId
+      );
+
+      if (column) {
+        const card = column.cards.find((i) => i._id === incomingCard._id);
+        if (card) {
+          // card.title = incomingCard.title;
+          // or card["title"] = incomingCard["title"];
+          // card["description"] = incomingCard["description"];
+          // Object.keys lấy toàn bộ các properties (keys) của incomingCard về 1 array rồi forEach ra để update
+          Object.keys(incomingCard).forEach((key) => {
+            card[key] = incomingCard[key];
+          });
+        }
+      }
     },
   },
   // extraReducers: Nơi xử lý data bất đồng bộ
@@ -83,7 +88,8 @@ export const activeBoardSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 // Actions: nơi dành cho các components bên dưới gọi bằng dispatch() tới nó để thông qua reducer (chạy đồng bộ)
-export const { updateCurrentActiveBoard } = activeBoardSlice.actions;
+export const { updateCurrentActiveBoard, updateCardInBoard } =
+  activeBoardSlice.actions;
 
 // Selectors: nơi dành cho các components bên dưới gọi bằng hook useSelector() để lấy data từ trong kho redux store ra sử dụng
 export const selectCurrentActiveBoard = (state) => {

@@ -1,5 +1,6 @@
 import { cardModel } from "~/models/cardModel";
 import { columnModel } from "~/models/columnModel";
+import { CloudinaryProvider } from "~/providers/CloudinaryProvider";
 
 const createNew = async (data) => {
   try {
@@ -23,13 +24,29 @@ const createNew = async (data) => {
   }
 };
 
-const update = async (cardId, reqBody) => {
+const update = async (cardId, reqBody, cardCoverFile) => {
   try {
     const updateData = {
       ...reqBody,
       updatedAt: Date.now(),
     };
-    const updatedCard = await cardModel.update(cardId, updateData);
+    let updatedCard = {};
+    if (cardCoverFile) {
+      // Case upload file to cloud storage (Cloudinary)
+      const uploadResult = await CloudinaryProvider.streamUpload(
+        cardCoverFile.buffer,
+        "card-covers"
+      );
+
+      // Save url image into db
+      updatedCard = await cardModel.update(cardId, {
+        cover: uploadResult.secure_url,
+      });
+    } else {
+      // Case update general information ex: displayName
+      updatedCard = await cardModel.update(cardId, updateData);
+    }
+
     return updatedCard;
   } catch (error) {
     throw error;
