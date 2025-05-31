@@ -66,6 +66,9 @@ export const activeBoardSlice = createSlice({
       // action.payload chính là response.data trả về ở trên fetchBoardDetailsAPI()
       let board = action.payload;
 
+      // Board members are a combination of the two arrays owners and members
+      board.FE_allUsers = board.owners.concat(board.members);
+
       // Handle data
       board.columns = mapOrder(board.columns, board.columnOrderIds, "_id");
 
