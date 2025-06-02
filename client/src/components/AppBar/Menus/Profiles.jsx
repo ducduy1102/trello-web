@@ -55,10 +55,7 @@ const Profiles = () => {
           <Avatar
             sx={{ width: 36, height: 36 }}
             alt='Evil Shadow'
-            src={
-              currentUser?.avatar ||
-              "https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-            }
+            src={currentUser?.avatar}
           />
         </IconButton>
       </Tooltip>
@@ -114,10 +111,7 @@ const Profiles = () => {
             <Avatar
               sx={{ width: 28, height: 28, mr: 2 }}
               alt='Evil Shadow'
-              src={
-                currentUser?.avatar ||
-                "https://i.ebayimg.com/images/g/hagAAOSwM7tjNl5u/s-l1200.jpg"
-              }
+              src={currentUser?.avatar}
             />
             Profile
           </MenuItem>
