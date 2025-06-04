@@ -22,9 +22,9 @@ const persistor = persistStore(store);
 injectStore(store);
 
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter basename='/'>
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <BrowserRouter basename='/'>
         <CssVarsProvider theme={theme}>
           <ConfirmProvider
             defaultOptions={{
@@ -52,7 +52,7 @@ createRoot(document.getElementById("root")).render(
             />
           </ConfirmProvider>
         </CssVarsProvider>
-      </PersistGate>
-    </Provider>
-  </BrowserRouter>
+      </BrowserRouter>
+    </PersistGate>
+  </Provider>
 );
