@@ -9,6 +9,9 @@ import { errorHandlingMiddleware } from "./middlewares/errorHandlingMiddleware";
 import { corsOptions } from "./config/cors";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import socketIo from "socket.io";
+import http from "http";
+import { inviteUserToBoardSocket } from "./sockets/inviteUserToBoardSocket";
 
 const START_SERVER = () => {
   const app = express();
@@ -40,7 +43,18 @@ const START_SERVER = () => {
   // Middleware xử lý lỗi tập trung
   app.use(errorHandlingMiddleware);
 
-  app.listen(port, hostname, () => {
+  // Tạo 1 server mới bọc App của express làm real-time với socket.io
+  const server = http.createServer(app);
+  // Khởi tạo biến io
+  const io = socketIo(server, { cors: corsOptions });
+  io.on("connection", (socket) => {
+    // Gọi socket tùy theo tính năng ở đây
+    inviteUserToBoardSocket(socket);
+    // ...
+  });
+
+  // Dùng server.listen thay vì app.listen vì lúc này server đã bao gồm express app và đã config socket.io
+  server.listen(port, hostname, () => {
     console.log(
       `Hello Evil Shadow, I am running at http://${hostname}:${port}`
     );
