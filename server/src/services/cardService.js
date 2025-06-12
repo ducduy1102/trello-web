@@ -51,6 +51,12 @@ const update = async (cardId, reqBody, cardCoverFile, userInfo) => {
         commentedAt: Date.now(),
       };
       updatedCard = await cardModel.unshiftNewComment(cardId, commentData);
+    } else if (updateData.incomingMemberInfo) {
+      // Case ADD or REMOVE members from the Card
+      updatedCard = await cardModel.updateMembers(
+        cardId,
+        updateData.incomingMemberInfo
+      );
     } else {
       // Case update general information ex: displayName
       updatedCard = await cardModel.update(cardId, updateData);
