@@ -221,7 +221,7 @@ const update = async (boardId, updateData) => {
   }
 };
 
-const getBoards = async (userId, page, itemsPerPage) => {
+const getBoards = async (userId, page, itemsPerPage, queryFilters) => {
   try {
     const queryCondition = [
       // Điều kiện 01: Board chưa bị xóa
@@ -239,6 +239,21 @@ const getBoards = async (userId, page, itemsPerPage) => {
         ],
       },
     ];
+
+    // Xử lý query filter cho từng trường hợp search board
+    // Search theo title
+    if (queryFilters) {
+      Object.keys(queryFilters).forEach((key) => {
+        // queryFilters [key] ví dụ queryFilters [title] nếu phía FE đầy lên q[title]
+        // Phân biệt chữ hoa chữ thường
+        // queryCondition.push({ [key]: { $regex: queryFilters[key] } });
+        // Không phân biệt
+        queryCondition.push({
+          [key]: { $regex: new RegExp(queryFilters[key], "i") },
+        });
+      });
+    }
+    // console.log("🚀 ~ Object.keys ~ queryCondition:", queryCondition);
 
     const query = await GET_DB()
       .collection(BOARD_COLLECTION_NAME)
